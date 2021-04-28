@@ -23,4 +23,10 @@ public class BTtest : MonoBehaviour
             myText.text = pushed.ToString();
         }
     }
+
+    public void changeText()
+    {
+        pushed += 1;
+        myText.text = pushed.ToString();
+    }
 }

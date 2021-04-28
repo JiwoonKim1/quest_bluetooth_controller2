@@ -8,6 +8,7 @@ using UnityEngine.InputSystem.Utilities;
 using UnityEngine.InputSystem.LowLevel;
 using System.Runtime.InteropServices;
 using UnityEditor;
+using UnityEngine.UI;
 
 //입력이 수신되고 저장되는 형태를 나타내는 C# 구조를 생성
 public struct myDeviceState : IInputStateTypeInfo
@@ -28,6 +29,8 @@ public class myDevice : InputDevice, IInputUpdateCallbackReceiver
 {
     public ButtonControl button { get; private set; }
 
+    private GameObject bluetoothControl = GameObject.FindWithTag("BlueTooth");
+
     //생성자
     static myDevice()
     {
@@ -38,14 +41,6 @@ public class myDevice : InputDevice, IInputUpdateCallbackReceiver
             .WithCapability("vendorId", 65535));
     }
 
-    // This is only to trigger the static class constructor to automatically run
-    // in the player.
-    /*
-    [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
-    private static void InitializeInPlayer() { Debug.Log("Startup"); }
-    */
-
-
     protected override void FinishSetup()
     {
         base.FinishSetup();
@@ -55,31 +50,18 @@ public class myDevice : InputDevice, IInputUpdateCallbackReceiver
     public void OnUpdate()
     {
         var state = new myDeviceState();
-
-        /*
-        var trace = new InputEventTrace();
-        trace.Enable();
-
-        //Debug.Log(trace.GetType());
-
-        var current = new InputEventPtr();
-        while (trace.GetNextEvent(ref current))
-        {
-            Debug.Log("Got some event: " + current);
-        }
-
-        // Also supports IEnumerable.
-        foreach (var eventPtr in trace)
-            Debug.Log("Got some event: " + eventPtr);
-
-        // Trace consumes unmanaged resources. Make sure to dispose.
-        trace.Dispose();
-        */
+        
 
         InputSystem.onEvent += (eventPtr, device) =>
         {
 
-            if (eventPtr.sizeInBytes == 28) Debug.Log(28);
+            if (eventPtr.sizeInBytes == 28)
+            {
+                //bluetoothControl.GetComponent<BTtest>().changeText();
+                Debug.Log(28);
+                //Debug.Log(InputDevice.InvalidDeviceId);
+                //Debug.Log(eventPtr.ge)
+            }
             
         };
     }
