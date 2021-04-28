@@ -12,7 +12,7 @@ public class BTtest : MonoBehaviour
 
     private void Start()
     {
-        InputSystem.AddDevice<myDevice>();
+        //InputSystem.AddDevice<myDevice>();
     }
     // Update is called once per frame
     void Update()
@@ -21,8 +21,6 @@ public class BTtest : MonoBehaviour
         {
             pushed += 1;
             myText.text = pushed.ToString();
-
-            Debug.Log("An Input Detected");
         }
     }
 }

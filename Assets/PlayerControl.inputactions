@@ -2,13 +2,13 @@
     "name": "PlayerControl",
     "maps": [
         {
-            "name": "New action map",
-            "id": "23f0ee12-d7f7-4698-a83e-c5c686289275",
+            "name": "button",
+            "id": "fd572731-0ccd-4508-b46f-186e694b3b07",
             "actions": [
                 {
-                    "name": "New action",
+                    "name": "buttonPress",
                     "type": "Button",
-                    "id": "967c64e1-6536-4e19-933c-d54160334c4b",
+                    "id": "f0cde4e1-4194-44f4-b549-f1deb254cd25",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "Press"
@@ -17,28 +17,40 @@
             "bindings": [
                 {
                     "name": "",
-                    "id": "31c2b830-0291-40cc-a212-5f9722c399f8",
-                    "path": "<Gamepad>/buttonEast",
+                    "id": "71268a80-7574-4e18-9259-8fc31456b67c",
+                    "path": "",
                     "interactions": "",
                     "processors": "",
-                    "groups": "",
-                    "action": "New action",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "9634194b-a83c-4979-a4dd-2dc6460d447a",
-                    "path": "<Mouse>/press",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "New action",
+                    "groups": "HID",
+                    "action": "buttonPress",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
             ]
         }
     ],
-    "controlSchemes": []
+    "controlSchemes": [
+        {
+            "name": "keyboard",
+            "bindingGroup": "keyboard",
+            "devices": [
+                {
+                    "devicePath": "<Keyboard>",
+                    "isOptional": false,
+                    "isOR": false
+                }
+            ]
+        },
+        {
+            "name": "HID",
+            "bindingGroup": "HID",
+            "devices": [
+                {
+                    "devicePath": "<HID>",
+                    "isOptional": false,
+                    "isOR": false
+                }
+            ]
+        }
+    ]
 }
