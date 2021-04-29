@@ -662,6 +662,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="InputSystem.Samples.Visualizers.csproj">
+      <Project>{56F4C144-0B67-FC02-F9D4-A680A6630CF1}</Project>
+      <Name>InputSystem.Samples.Visualizers</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="GenerateTargetFrameworkMonikerAttribute" />

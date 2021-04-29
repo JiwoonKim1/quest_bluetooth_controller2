@@ -8,16 +8,19 @@ using UnityEngine.InputSystem.Utilities;
 using UnityEngine.InputSystem.LowLevel;
 using System.Runtime.InteropServices;
 using UnityEditor;
-using UnityEngine.UI;
+using System;
 
 //입력이 수신되고 저장되는 형태를 나타내는 C# 구조를 생성
+[StructLayout(LayoutKind.Explicit, Size = 32)]
 public struct myDeviceState : IInputStateTypeInfo
 {
     // FourCC type codes are used to identify the memory layouts of state blocks. 
     public FourCC format => new FourCC('H', 'I', 'D');
 
+    [FieldOffset(0)] public byte reportId;
+
     [InputControl(name = "button", layout = "Button", bit = 4)]
-    public int button;
+    [FieldOffset(0)] public int button;
 
 }
 
@@ -28,9 +31,7 @@ public struct myDeviceState : IInputStateTypeInfo
 public class myDevice : InputDevice, IInputUpdateCallbackReceiver
 {
     public ButtonControl button { get; private set; }
-
-    private GameObject bluetoothControl = GameObject.FindWithTag("BlueTooth");
-
+    
     //생성자
     static myDevice()
     {
@@ -41,17 +42,21 @@ public class myDevice : InputDevice, IInputUpdateCallbackReceiver
             .WithCapability("vendorId", 65535));
     }
 
+  
+
     protected override void FinishSetup()
     {
         base.FinishSetup();
         button = GetChildControl<ButtonControl>("button");
     }
 
+    
     public void OnUpdate()
     {
-        var state = new myDeviceState();
-        
 
+        //var state = new myDeviceState();
+
+        /*
         InputSystem.onEvent += (eventPtr, device) =>
         {
 
@@ -64,9 +69,46 @@ public class myDevice : InputDevice, IInputUpdateCallbackReceiver
             }
             
         };
+        */
+
+        //InputState.onChange += InputState_onChange;
+
     }
+
+
+    //=======================================================================
+
+    public static myDevice current { get; private set; }
+
+    public static IReadOnlyList<myDevice> all => s_AllMyDevices;
+    private static List<myDevice> s_AllMyDevices = new List<myDevice>();
+
+    public override void MakeCurrent()
+    {
+        base.MakeCurrent();
+        current = this;
+    }
+
+    protected override void OnAdded()
+    {
+        base.OnAdded();
+        s_AllMyDevices.Add(this);
+    }
+
+    protected override void OnRemoved()
+    {
+        base.OnRemoved();
+        s_AllMyDevices.Remove(this);
+    }
+
+    protected int getDeviceId()
+    {
+        return base.deviceId;
+    }
+    //=======================================================================
 
     [RuntimeInitializeOnLoadMethod]
     static void Init() { }
 }
+
 

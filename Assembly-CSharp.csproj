@@ -682,6 +682,10 @@
       <Project>{75547621-1FD1-C32E-9FE0-09F54304D396}</Project>
       <Name>Assembly-CSharp-firstpass</Name>
     </ProjectReference>
+    <ProjectReference Include="InputSystem.Samples.Visualizers.csproj">
+      <Project>{56F4C144-0B67-FC02-F9D4-A680A6630CF1}</Project>
+      <Name>InputSystem.Samples.Visualizers</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="GenerateTargetFrameworkMonikerAttribute" />

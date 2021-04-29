@@ -51,6 +51,17 @@
                     "isOR": false
                 }
             ]
+        },
+        {
+            "name": "myDevice",
+            "bindingGroup": "myDevice",
+            "devices": [
+                {
+                    "devicePath": "<myDevice>",
+                    "isOptional": false,
+                    "isOR": false
+                }
+            ]
         }
     ]
 }
