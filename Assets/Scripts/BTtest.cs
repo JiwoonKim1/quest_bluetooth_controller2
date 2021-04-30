@@ -22,61 +22,61 @@ public class BTtest : MonoBehaviour
         connectedText.text = connected.ToString();
         //state = new myDeviceState();
 
-        Debug.Log(InputDevice.all);
+        // add our listener to the onDeviceChange event
+        InputSystem.onDeviceChange += onInputDeviceChange;
+        InputSystem.onEvent += onEvent;
     }
-    // Update is called once per frame
+
     void Update()
     {
+
         if (Input.anyKeyDown)
         {
             pushed += 1;
             pressedText.text = pushed.ToString();
         }
         
-        InputSystem.onEvent += (eventPtr, device) =>
+
+    }
+
+    public void onInputDeviceChange(InputDevice device, InputDeviceChange change)
+    {
+        //Debug.Log("onInputDeviceChange");
+        switch (change)
         {
+            case InputDeviceChange.Added:
+                connected += 1;
+                //Debug.Log("Device added: " + device);
+                break;
+            case InputDeviceChange.Removed:
+                connected -= 1;
+                //Debug.Log("Device removed: " + device);
+                break;
+            case InputDeviceChange.ConfigurationChanged:
+                //Debug.Log("Device configuration changed: " + device);
+                break;
+            case InputDeviceChange.Disconnected:
+                connected -= 1;
+                //Debug.Log("Device Disconnected: " + device);
+                break;
+            case InputDeviceChange.Reconnected:
+                connected += 1;
+                //Debug.Log("Device Reconnected: " + device);
+                break;
+        }
 
-            if (eventPtr.sizeInBytes == 28)
-            {
-                changeText();
-                //Debug.Log(28);
-                Debug.Log(device.deviceId);
-                //if (device.HasValueChangeInEvent(eventPtr)) Debug.Log(state.reportId);
-                //Debug.Log(InputState.updateCount.ToString());
-                //if (device.HasValueChangeInState()) Debug.Log(state.reportId);
-            }
+        connectedText.text = connected.ToString();
+    }
 
-            //Debug.Log(device.deviceId);
-        };
+    public void onEvent(InputEventPtr inputEvent, InputDevice device)
+    {
+        //Debug.Log("onEvent");
 
-        InputSystem.onDeviceChange += (device, change) =>
+        if (inputEvent.sizeInBytes == 28)
         {
-            
-            switch (change)
-            {
-                case InputDeviceChange.Added:
-                    connected += 1;
-                    //Debug.Log("New device added: " + device);
-                    break;
-
-                case InputDeviceChange.Removed:
-                    connected -= 1;
-                    //Debug.Log("Device removed: " + device);
-                    break;
-                case InputDeviceChange.Disconnected:
-                    connected -= 1;
-                    Debug.Log("Device Disconnected: " + device);
-                    break;
-                case InputDeviceChange.Reconnected:
-                    connected += 1;
-                    Debug.Log("Device Reconnected: " + device);
-                    break;
-            }
-
-            connectedText.text = connected.ToString();
-
-        };
-
+            changeText();
+            Debug.Log(device.deviceId);
+        }
     }
 
     public void changeText()
