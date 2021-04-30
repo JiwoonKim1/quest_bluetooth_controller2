@@ -105,6 +105,11 @@ public class myDevice : InputDevice, IInputUpdateCallbackReceiver
     {
         return base.deviceId;
     }
+
+    public int allmyDevices()
+    {
+        return s_AllMyDevices.Count;
+    }
     //=======================================================================
 
     [RuntimeInitializeOnLoadMethod]
