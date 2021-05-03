@@ -14,6 +14,7 @@ public class BTtest : MonoBehaviour
     //private myDeviceState state;
     private int pushed = 0;
     private int connected = 0;
+    private bool flag = false;
 
 
     private void Start()
@@ -71,7 +72,7 @@ public class BTtest : MonoBehaviour
 
         Debug.Log(device.usages);
 
-        connectedText.text = connected.ToString();
+        if(connected != null) connectedText.text = connected.ToString();
     }
 
     public void onEvent(InputEventPtr inputEvent, InputDevice device)
@@ -80,7 +81,15 @@ public class BTtest : MonoBehaviour
         //Debug.Log(inputEvent.valid);
         if (inputEvent.sizeInBytes == 28)
         {
-            changePressedText();
+            if (flag)
+            {
+                changePressedText();
+                flag = false;
+            }
+            else
+            {
+                flag = true;
+            }
             Debug.Log(device.deviceId);
         }
     }
@@ -123,7 +132,7 @@ public class BTtest : MonoBehaviour
             }
             InputSystem.QueueEvent(OutEventPtr);
         }
-
+        
 
         if (mydevice != null)
         {
@@ -141,12 +150,6 @@ public class BTtest : MonoBehaviour
         if (mouse != null)
         {
             //Need to take the eventPtr and get the Mouse button press data **HELP!!!**
-        }
-
-        var gamepad = device_in as Gamepad;      //Test for keyboard event
-        if (gamepad != null)
-        {
-            //Need to take the eventPtr and get the gamepad axis / button press data **HELP!!!**          
         }
 
     } // End Listener
