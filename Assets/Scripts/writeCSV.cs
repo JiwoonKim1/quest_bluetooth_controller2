@@ -45,5 +45,6 @@ public class writeCSV : MonoBehaviour
     public void writeTimeLine()
     {
         writer.WriteRow(timeLine);
+        Debug.Log(timeLine);
     }
 }
