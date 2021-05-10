@@ -21,39 +21,64 @@ public class BTtest : MonoBehaviour
     {
         pressedText.text = pushed.ToString();
 
-        connected = InputSystem.devices.Count;
+        //connected = InputSystem.devices.Count;
+        connected = countMyDevice();
         connectedText.text = connected.ToString();
 
         InputSystem.onDeviceChange += onInputDeviceChange;
         InputSystem.onEvent += onEvent;
     }
 
+    private void Update()
+    {
+        if (Input.anyKey) Debug.Log("this");
+    }
+
+    private int countMyDevice()
+    {
+        int cnt = 0;
+        var devices = InputSystem.devices.ToArray();
+
+        for (int i = 0; i < devices.Length; i++)
+        {
+            var mydevice = devices[i] as myDevice;
+            if (mydevice != null) cnt++;
+        }
+
+        return cnt;
+    }
+
     private void OnApplicationQuit()
     {
         Debug.Log("Application ending after " + Time.time + " seconds");
-        GetComponent<writeCSV>().writeTimeLine();
+        //GetComponent<writeCSV>().writeTimeLine();
     }
 
     public void onInputDeviceChange(InputDevice device, InputDeviceChange change)
     {
-        switch (change)
+        var mydevice = device as myDevice;
+
+        if(mydevice != null)
         {
-            case InputDeviceChange.Added:
-                connected += 1;
-                break;
-            case InputDeviceChange.Removed:
-                connected -= 1;
-                break;
-            case InputDeviceChange.ConfigurationChanged:
-                break;
-            case InputDeviceChange.Disconnected:
-                connected -= 1;
-                break;
-            case InputDeviceChange.Reconnected:
-                connected += 1;
-                break;
+            switch (change)
+            {
+                case InputDeviceChange.Added:
+                    connected += 1;
+                    break;
+                case InputDeviceChange.Removed:
+                    connected -= 1;
+                    break;
+                case InputDeviceChange.ConfigurationChanged:
+                    break;
+                case InputDeviceChange.Disconnected:
+                    connected -= 1;
+                    break;
+                case InputDeviceChange.Reconnected:
+                    connected += 1;
+                    break;
+            }
+            if (connected != null) changeConnectedText();
         }
-        if (connected != null) changeConnectedText();
     }
 
     public void onEvent(InputEventPtr inputEvent, InputDevice device)
@@ -66,25 +91,32 @@ public class BTtest : MonoBehaviour
         if(keyboard != null)
         {
             changePressedtext(time);
-            Debug.Log("time: " + time + ", deviceID: " + device.deviceId);
-            Debug.Log("keyboard");
+
+            //Debug.Log("time: " + time + ", deviceID: " + device.deviceId);
+            //Debug.Log("keyboard");
         }
         if(mydevice != null)
         {
-            Debug.Log("time: " + time + ", deviceID: " + device.deviceId);
+            
+            //Debug.Log("time: " + time + ", deviceID: " + device.deviceId);
             if (!flag)
             {
                 flag = true;
                 return;
             }
             flag = false;
+
+            if (mydevice.IsPressed())
+            {
+            }
             changePressedtext(time);
         }
+        
     }
 
     private void changePressedtext(float time)
     {
-        GetComponent<writeCSV>().writeTime(time);
+        //GetComponent<writeCSV>().writeTime(time);
 
         pushed += 1;
         if (pressedText != null) pressedText.text = pushed.ToString();
@@ -94,4 +126,5 @@ public class BTtest : MonoBehaviour
     {
         if(connectedText != null) connectedText.text = connected.ToString();
     }
+
 }

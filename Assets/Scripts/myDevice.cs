@@ -19,8 +19,10 @@ public struct myDeviceState : IInputStateTypeInfo
 
     [FieldOffset(0)] public byte reportId;
 
-    [InputControl(name = "button", layout = "Button", bit = 4)]
+    [InputControl(name = "button", layout = "Button", format = "BYTE")]
+    //[InputControl(name = "mybutton", layout = "Key", format = "BIT")]
     [FieldOffset(0)] public int button;
+
 
 }
 
@@ -31,7 +33,8 @@ public struct myDeviceState : IInputStateTypeInfo
 public class myDevice : InputDevice, IInputUpdateCallbackReceiver
 {
     public ButtonControl button { get; private set; }
-    
+
+
     //생성자
     static myDevice()
     {
@@ -48,6 +51,7 @@ public class myDevice : InputDevice, IInputUpdateCallbackReceiver
     {
         base.FinishSetup();
         button = GetChildControl<ButtonControl>("button");
+        //button = GetChildControl<KeyControl>("mybutton");
     }
 
     
